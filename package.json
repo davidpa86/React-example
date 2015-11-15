@@ -1,0 +1,28 @@
+{
+  "name": "React-example",
+  "version": "1.0.0",
+  "description": "Basic example for getting started with React.js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidpa86/React-example.git"
+  },
+  "keywords": [
+    "React.js",
+    "example",
+    "play-around"
+  ],
+  "author": "parrasdavid@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidpa86/React-example/issues"
+  },
+  "homepage": "https://github.com/davidpa86/React-example",
+  "devDependencies": {
+    "browserify": "^12.0.1",
+    "gulp": "^3.9.0"
+  }
+}
