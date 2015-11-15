@@ -2,9 +2,9 @@
   "name": "React-example",
   "version": "1.0.0",
   "description": "Basic example for getting started with React.js",
-  "main": "server.js",
+  "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch" : "watchify -t 6to5ify ./src/app.jsx -o ./dist/bundle.js -v"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/davidpa86/React-example",
   "devDependencies": {
+    "6to5ify": "^4.1.1",
     "browserify": "^12.0.1",
-    "gulp": "^3.9.0"
+    "react": "^0.14.2",
+    "watchify": "^3.6.1"
   }
 }
