@@ -49,6 +49,18 @@ var Liquid = React.createClass({
   }
 });
 
+var LiquidList = React.createClass({
+  render : function (){
+    var liquids = this.props.liquids.map(function(liquidObject, index){
+                    return <Liquid config={ liquidObject } key={ index } />;
+                  })
+    return (
+        <div>
+            { liquids }
+        </div>
+    );
+  }
+});
 //React.render(<App/>, document.getElementById("container"));
 //React.render(<List/>, document.getElementById("container"));
 var water = {
@@ -56,15 +68,12 @@ var water = {
   freezing: 0,
   boiling: 100
 };
-var waterEl = document.createElement("div");
-document.getElementById("container").appendChild(waterEl);
-React.render(<Liquid config={water}/>, waterEl);
-
 var ethanol = {
     name: "ethanol",
     freezing: -173.2,
     boiling: 173.1
 };
-var ethanolEl = document.createElement("div");
-document.getElementById("container").appendChild(ethanolEl);
-React.render(<Liquid config={ethanol}/>, ethanolEl);
+var liquidsConfig = [water,ethanol];
+var liquidsEl = document.createElement("div");
+document.getElementById("container").appendChild(liquidsEl);
+React.render(<LiquidList liquids={liquidsConfig}/>,liquidsEl);
