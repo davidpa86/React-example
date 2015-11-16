@@ -20,7 +20,7 @@ var List = React.createClass({
     }
 });
 
-var Water = React.createClass({
+var Liquid = React.createClass({
   getInitialState : function () {
     return {
       temperature : 20
@@ -30,25 +30,41 @@ var Water = React.createClass({
     this.setState({temperature: event.target.value});
   },
   render : function (){
-    var waterState;
-    if (this.state.temperature <= 0)
+    var liquidState;
+    if (this.state.temperature <= this.props.config.freezing)
     {
-        waterState = "solid";
+        liquidState = "solid";
     }
-    else if (this.state.temperature >= 100)
+    else if (this.state.temperature >= this.props.config.boiling)
     {
-      waterState = "gas";
+      liquidState = "gas";
     }
     else {
-      waterState = "liquid";
+      liquidState = "liquid";
     }
     return <div>
         <input type="text" onChange={this.setTemperature} value={this.state.temperature}/>
-        <h2>At temperature {this.state.temperature}, water is {waterState}</h2>
+        <h2>At temperature {this.state.temperature}, {this.props.config.name} is {liquidState}</h2>
       </div>;
   }
 });
 
 //React.render(<App/>, document.getElementById("container"));
 //React.render(<List/>, document.getElementById("container"));
-React.render(<Water/>, document.getElementById("container"));
+var water = {
+  name : "water",
+  freezing: 0,
+  boiling: 100
+};
+var waterEl = document.createElement("div");
+document.getElementById("container").appendChild(waterEl);
+React.render(<Liquid config={water}/>, waterEl);
+
+var ethanol = {
+    name: "ethanol",
+    freezing: -173.2,
+    boiling: 173.1
+};
+var ethanolEl = document.createElement("div");
+document.getElementById("container").appendChild(ethanolEl);
+React.render(<Liquid config={ethanol}/>, ethanolEl);
