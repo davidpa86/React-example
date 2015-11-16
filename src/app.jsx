@@ -9,4 +9,16 @@ var App = React.createClass({
     </div>;
   }
 });
-React.render(<App/>, document.body);
+
+var List = React.createClass({
+    render: function(){
+      var array = ["Madrid","Barcelona","Valencia"];
+      var liArray = array.map(function(city, index){
+          return <li key={ index }>{city}</li>;
+      });
+      return <ul>{liArray}</ul>;
+    }
+});
+
+//React.render(<App/>, document.getElementById("container"));
+React.render(<List/>, document.getElementById("container"));
