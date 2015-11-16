@@ -26,6 +26,9 @@ var Water = React.createClass({
       temperature : 20
     };
   },
+  setTemperature : function (event){
+    this.setState({temperature: event.target.value});
+  },
   render : function (){
     var waterState;
     if (this.state.temperature <= 0)
@@ -39,7 +42,10 @@ var Water = React.createClass({
     else {
       waterState = "liquid";
     }
-    return <h2>At temperature {this.state.temperature}, water is {waterState}</h2>;
+    return <div>
+        <input type="text" onChange={this.setTemperature} value={this.state.temperature}/>
+        <h2>At temperature {this.state.temperature}, water is {waterState}</h2>
+      </div>;
   }
 });
 
