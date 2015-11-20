@@ -5,4 +5,6 @@ Basic example for getting started with React.js
 *RUN:
 
 * npm init
-* npm run watch
+
+* gulp default
+* gulp build

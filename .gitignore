@@ -1,4 +1,2 @@
 node_modules/
-src/libs/
-data/
-dist/bundle.js
+dist/
