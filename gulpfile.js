@@ -7,6 +7,18 @@ var gulpIf = require('gulp-if');
 var minifyCSS = require('gulp-minify-css');
 var runSequence = require('run-sequence');
 var react = require("gulp-react");
+var browserify = require('browserify');
+var source = require("vinyl-source-stream");
+var reactify = require('reactify');
+
+gulp.task('browserify', function(){
+  var b = browserify();
+  b.transform(reactify); // use the reactify transform
+  b.add('app/jsx/app.jsx');
+  return b.bundle()
+    .pipe(source('app.js'))
+    .pipe(gulp.dest('app/js/'));
+});
 
 gulp.task("sass", function(){
   return  gulp.src("app/scss/*.scss")
@@ -42,12 +54,12 @@ gulp.task('useref', function() {
     .pipe(gulpIf('*.css', minifyCSS()))
     // Uglifies only if it's a Javascript file
     .pipe(gulpIf('*.js', uglify()))
-    .pipe(gulp.dest('app/js'))
+    .pipe(gulp.dest('./dist'))
 });
 
 gulp.task("watch", ["browserSync", "sass"], function(){
     gulp.watch("app/scss/*.scss", ["sass"]);
-    gulp.watch("app/jsx/*.jsx", ["react"]);
+    gulp.watch("app/jsx/*.jsx", ["browserify"]);
 
     gulp.watch("app/css/*.css").on('change', browserSync.reload);
     gulp.watch("app/*.html").on('change', browserSync.reload);
@@ -55,13 +67,13 @@ gulp.task("watch", ["browserSync", "sass"], function(){
 });
 
 gulp.task('default', function(callback) {
-  runSequence(['sass', 'react', 'browserSync', 'watch'],
+  runSequence(['sass', 'browserify', 'browserSync', 'watch'],
     callback
   )
 })
 
 gulp.task('build', function(callback) {
-  runSequence(['sass', 'react', 'useref'],
+  runSequence(['browserify', 'sass', 'useref'],
     callback
   )
 })
