@@ -1,42 +1,41 @@
 var React = require("react");
 var ReactDOM = require('react-dom');
 
-var App = React.createClass({
+var Button = React.createClass({
   getInitialState : function getInitialState(){
-    return {
-      red : 128,
-      green : 128,
-      blue : 128
-    };
+    return {val : 0};
   },
   update : function update(){
-    this.setState({
-      red :  ReactDOM.findDOMNode(this.refs.red.refs.sliderInput).value,
-      green : ReactDOM.findDOMNode(this.refs.green.refs.sliderInput).value,
-      blue : ReactDOM.findDOMNode(this.refs.blue.refs.sliderInput).value,
-    });
+    this.setState({val : this.state.val+1});
+  },
+  componentWillMount : function componentWillMount(){
+    console.log("Mounting component");
+  },
+  componentWillUnmount : function componentWillUnmount(){
+    console.log("Unmounting component");
+  },
+  render : function render(){
+    return <button onClick={this.update}>{this.state.val}</button>
+  }
+});
+
+var App = React.createClass({
+  mount : function mount(){
+    ReactDOM.render(<Button/>,document.getElementById("app"));
+  },
+  unmount : function unmount(){
+    ReactDOM.unmountComponentAtNode(document.getElementById("app"));
   },
   render : function render(){
     return (
       <div>
-        {this.state.red},  {this.state.green},   {this.state.blue}
-        <hr/>
-        <Slider ref="red" updateColor={this.update}></Slider>
-        <Slider ref="green" updateColor={this.update}></Slider>
-        <Slider ref="blue" updateColor={this.update}></Slider>
+        <button onClick={this.mount}>Mount</button>
+        <button onClick={this.unmount}>Unmount</button>
+        <div id="app"></div>
       </div>
     );
   }
 });
 
-var Slider = React.createClass({
-  render : function render(){
-    return (
-      <div>
-        <input ref="sliderInput" type="range" min="0" max="255" onChange={this.props.updateColor}></input>
-      </div>
-    );
-  }
-});
 
 ReactDOM.render(<App/>,document.getElementById("container"));

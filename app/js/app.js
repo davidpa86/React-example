@@ -2,43 +2,42 @@
 var React = require("react");
 var ReactDOM = require('react-dom');
 
-var App = React.createClass({displayName: "App",
+var Button = React.createClass({displayName: "Button",
   getInitialState : function getInitialState(){
-    return {
-      red : 128,
-      green : 128,
-      blue : 128
-    };
+    return {val : 0};
   },
   update : function update(){
-    this.setState({
-      red :  ReactDOM.findDOMNode(this.refs.red.refs.sliderInput).value,
-      green : ReactDOM.findDOMNode(this.refs.green.refs.sliderInput).value,
-      blue : ReactDOM.findDOMNode(this.refs.blue.refs.sliderInput).value,
-    });
+    this.setState({val : this.state.val+1});
+  },
+  componentWillMount : function componentWillMount(){
+    console.log("Mounting component");
+  },
+  componentWillUnmount : function componentWillUnmount(){
+    console.log("Unmounting component");
+  },
+  render : function render(){
+    return React.createElement("button", {onClick: this.update}, this.state.val)
+  }
+});
+
+var App = React.createClass({displayName: "App",
+  mount : function mount(){
+    ReactDOM.render(React.createElement(Button, null),document.getElementById("app"));
+  },
+  unmount : function unmount(){
+    ReactDOM.unmountComponentAtNode(document.getElementById("app"));
   },
   render : function render(){
     return (
       React.createElement("div", null, 
-        this.state.red, ",  ", this.state.green, ",   ", this.state.blue, 
-        React.createElement("hr", null), 
-        React.createElement(Slider, {ref: "red", updateColor: this.update}), 
-        React.createElement(Slider, {ref: "green", updateColor: this.update}), 
-        React.createElement(Slider, {ref: "blue", updateColor: this.update})
+        React.createElement("button", {onClick: this.mount}, "Mount"), 
+        React.createElement("button", {onClick: this.unmount}, "Unmount"), 
+        React.createElement("div", {id: "app"})
       )
     );
   }
 });
 
-var Slider = React.createClass({displayName: "Slider",
-  render : function render(){
-    return (
-      React.createElement("div", null, 
-        React.createElement("input", {ref: "sliderInput", type: "range", min: "0", max: "255", onChange: this.props.updateColor})
-      )
-    );
-  }
-});
 
 ReactDOM.render(React.createElement(App, null),document.getElementById("container"));
 },{"react":159,"react-dom":3}],2:[function(require,module,exports){
