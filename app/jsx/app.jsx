@@ -11,9 +11,9 @@ var App = React.createClass({
   },
   update : function update(){
     this.setState({
-      red : this.refs.red.refs.sliderInput.getDOMNode().value,
-      green : this.refs.green.refs.sliderInput.getDOMNode().value,
-      blue : this.refs.blue.refs.sliderInput.getDOMNode().value
+      red :  ReactDOM.findDOMNode(this.refs.red.refs.sliderInput).value,
+      green : ReactDOM.findDOMNode(this.refs.green.refs.sliderInput).value,
+      blue : ReactDOM.findDOMNode(this.refs.blue.refs.sliderInput).value,
     });
   },
   render : function render(){
