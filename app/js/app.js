@@ -3,43 +3,32 @@ var React = require("react");
 var ReactDOM = require('react-dom');
 
 var Button = React.createClass({displayName: "Button",
-  getInitialState : function getInitialState(){
-    return {val : 0};
+  getInitialState : function (){
+    return {increasing : false};
   },
   update : function update(){
-    this.setState({val : this.state.val+1});
+    this.setProps({val : this.props.val+1});
   },
-  componentWillMount : function componentWillMount(){
-    console.log("Mounting component");
+  componentWillReceiveProps : function (nextProps){
+    this.setState({increasing : nextProps.val > this.props.val});
   },
-  componentWillUnmount : function componentWillUnmount(){
-    console.log("Unmounting component");
+  shouldComponentUpdate : function (nextProps, nextState) {
+    console.log("nextProps ", nextProps);
+    console.log("nextState ", nextState);
+    return nextProps.val % 5 === 0; //update only every 5 clicks
   },
-  render : function render(){
-    return React.createElement("button", {onClick: this.update}, this.state.val)
-  }
-});
-
-var App = React.createClass({displayName: "App",
-  mount : function mount(){
-    ReactDOM.render(React.createElement(Button, null),document.getElementById("app"));
-  },
-  unmount : function unmount(){
-    ReactDOM.unmountComponentAtNode(document.getElementById("app"));
+  componentDidUpdate : function (nextProps, prevState){
+    console.log("next prop ",nextProps);
+    console.log("prev state ",prevState);
   },
   render : function render(){
-    return (
-      React.createElement("div", null, 
-        React.createElement("button", {onClick: this.mount}, "Mount"), 
-        React.createElement("button", {onClick: this.unmount}, "Unmount"), 
-        React.createElement("div", {id: "app"})
-      )
-    );
+    console.log(this.state.increasing);
+    return React.createElement("button", {onClick: this.update}, this.props.val)
   }
 });
 
 
-ReactDOM.render(React.createElement(App, null),document.getElementById("container"));
+ReactDOM.render(React.createElement(Button, {val: 0}),document.getElementById("container"));
 },{"react":159,"react-dom":3}],2:[function(require,module,exports){
 // shim for using process in browser
 

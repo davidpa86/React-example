@@ -2,40 +2,29 @@ var React = require("react");
 var ReactDOM = require('react-dom');
 
 var Button = React.createClass({
-  getInitialState : function getInitialState(){
-    return {val : 0};
+  getInitialState : function (){
+    return {increasing : false};
   },
   update : function update(){
-    this.setState({val : this.state.val+1});
+    this.setProps({val : this.props.val+1});
   },
-  componentWillMount : function componentWillMount(){
-    console.log("Mounting component");
+  componentWillReceiveProps : function (nextProps){
+    this.setState({increasing : nextProps.val > this.props.val});
   },
-  componentWillUnmount : function componentWillUnmount(){
-    console.log("Unmounting component");
+  shouldComponentUpdate : function (nextProps, nextState) {
+    console.log("nextProps ", nextProps);
+    console.log("nextState ", nextState);
+    return nextProps.val % 5 === 0; //update only every 5 clicks
   },
-  render : function render(){
-    return <button onClick={this.update}>{this.state.val}</button>
-  }
-});
-
-var App = React.createClass({
-  mount : function mount(){
-    ReactDOM.render(<Button/>,document.getElementById("app"));
-  },
-  unmount : function unmount(){
-    ReactDOM.unmountComponentAtNode(document.getElementById("app"));
+  componentDidUpdate : function (nextProps, prevState){
+    console.log("next prop ",nextProps);
+    console.log("prev state ",prevState);
   },
   render : function render(){
-    return (
-      <div>
-        <button onClick={this.mount}>Mount</button>
-        <button onClick={this.unmount}>Unmount</button>
-        <div id="app"></div>
-      </div>
-    );
+    console.log(this.state.increasing);
+    return <button onClick={this.update}>{this.props.val}</button>
   }
 });
 
 
-ReactDOM.render(<App/>,document.getElementById("container"));
+ReactDOM.render(<Button val={0}/>,document.getElementById("container"));
