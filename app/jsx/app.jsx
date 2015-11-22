@@ -1,35 +1,46 @@
 var React = require("react");
 var ReactDOM = require('react-dom');
-var ReactAddons = require('react-addons');
+var d3 = require("d3");
+var angular = require("angular");
 
 var App = React.createClass({
-  mixins : [ReactAddons.LinkedStateMixin],
-  getInitialState: function() {
-    return {
-      name : "",
-      email : "",
-      phone : ""
-    };
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.data) {this.renderChart(nextProps.data);}
   },
-  render : function (){
-    return (
-      <form>
-        <div>
-          {/* with this mixin and linkstate we can have double binding, we do not use onChange and this.refs */}
-          <input valueLink={this.linkState("name")} type="text" placeholder="name"/>
-          <label>**{this.state.name}</label>
-        </div>
-        <div>
-          <input valueLink={this.linkState("email")} type="text" placeholder="email"/>
-          <label>**{this.state.email}</label>
-        </div>
-        <div>
-          <input valueLink={this.linkState("phone")} type="text" placeholder="phone"/>
-          <label>**{this.state.phone}</label>
-        </div>
-      </form>
-    );
+  renderChart: function(dataset) {
+    /**d3.select("#" + this.props.target).selectAll("div").data(dataset).enter().append("div").attr("class", "bar").style("height", function(d) {
+      return d.val * 5 + "px";
+    });*/
+    dataset.map(function (item){
+      var div = document.createElement("div");
+      div.innerHTML = item.val;
+      document.getElementById("rchart").appendChild(div);
+    });
+  },
+  render: function() {
+    return React.DOM.div({id: this.props.target})
   }
 });
 
-ReactDOM.render(<App/>, document.getElementById("container"));
+angular.module("RNG", []).controller("chartController", [
+  "$http",
+  "$scope",
+  function($http, $scope) {
+    $http.jsonp("http://filltext.com/?rows=10&val={randomNumber}&callback=JSON_CALLBACK").success(function(d) {
+      $scope.data = d;
+    })
+  }
+]).directive("reactchart", function() {
+  return {
+    restrict: "E",
+    scope: {
+      data: "=",
+      id : "@"
+    },
+    link: function(scope, elm, attrs) {
+      scope.$watch("data", function(n, o) {
+        ReactDOM.render(<App data = {scope.data} target = {scope.id}/>, elm[0])
+      })
+    }
+  }
+});

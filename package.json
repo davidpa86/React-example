@@ -1,6 +1,6 @@
 {
   "name": "React-example",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Basic example for getting started with React.js",
   "main": "app/index.html",
   "scripts": {
@@ -23,8 +23,10 @@
   "homepage": "https://github.com/davidpa86/React-example",
   "devDependencies": {
     "6to5ify": "^4.1.1",
+    "angular": "^1.4.8",
     "browser-sync": "^2.10.0",
     "browserify": "^12.0.1",
+    "d3": "^3.5.9",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-html-replace": "^1.5.4",
@@ -41,5 +43,9 @@
     "run-sequence": "^1.1.5",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.1"
+  },
+  "dependencies": {
+    "angular": "^1.4.8",
+    "angular-route": "^1.4.8"
   }
 }
