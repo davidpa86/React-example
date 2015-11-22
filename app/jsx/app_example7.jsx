@@ -25,7 +25,7 @@ var App = React.createClass({
                   val={this.state.red}
                   label="Red"
                   updateColor={this.update}/>
-
+        {/*Build another one with different params*/}
         <NumInput
                   ref="blue"
                   min={0}
